@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon WebNovel Recommendations | Discover Amazing FanFiction</title>
+    <meta name="description" content="Discover the best Pokémon WebNovel fanfiction recommendations. Curated collection of top-rated stories with detailed summaries and ratings.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .search-filter {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #e1e5e9;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .novels-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .novel-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .novel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .novel-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+
+        .novel-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+            line-height: 1.4;
+        }
+
+        .novel-summary {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 8;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .novel-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+
+        .chapter-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stars {
+            color: #ffd700;
+        }
+
+        .read-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .read-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        @media (max-width: 1024px) {
+            .novels-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-star"></i> Pokémon WebNovel Recommendations</h1>
+            <p>Discover the most captivating Pokémon fanfiction stories</p>
+        </header>
+
+        <div class="search-filter">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search novels by title, author, or keywords..." id="searchInput">
+                <button class="filter-btn" onclick="searchNovels()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterNovels('all')">All Stories</button>
+                <button class="filter-btn" onclick="filterNovels('long')">Long Stories (300+ chapters)</button>
+                <button class="filter-btn" onclick="filterNovels('medium')">Medium Stories (100-300 chapters)</button>
+                <button class="filter-btn" onclick="filterNovels('short')">Short Stories (<100 chapters)</button>
+            </div>
+        </div>
+
+        <div class="novels-grid" id="novelsGrid">
+            <div class="novel-card fade-in" data-chapters="391" data-category="long">
+                <h2 class="novel-title">Elf: I am Invincible As the Protagonist Template of All Members</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>391 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span>4.8/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    Travel to a comprehensive elf world composed of anime, games and even various fan specials. 
+                    Here we have Red who is the avatar of the players, Liu Bo who chases time and suppresses legends, 
+                    and even Team Rocket and Dark Mewtwo from another time and space who rule the world! 
+                    Bai Ze, who awakened his innate wisdom and activated the system of rewarding hard work, 
+                    gradually realized that his elves seemed to be the templates of all the protagonists!
+                </p>
+                <a href="https://wtr-lab.com/en/novel/29416/elf-i-am-invincible-as-the-protagonist-template-of-all-members" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="353" data-category="long">
+                <h2 class="novel-title">The Elves Started from the Photographer of the Strange Tree</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>353 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span>4.2/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    No system single female protagonist. Due to various reasons, Fang Ci's journey did not officially 
+                    begin until he was fifteen years old. On the first day of his journey, a girl who dreamed of 
+                    becoming the world's number one anchor appeared in front of him because of a miraculous fate.
+                </p>
+                <a href="https://wtr-lab.com/en/novel/30057/the-elves-started-from-the-photographer-of-the-strange-tree" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="88" data-category="short">
+                <h2 class="novel-title">Elf: Started As a Dragon Gym Leader and Picked Up Gulton</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>88 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span>4.9/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    [Pokémon + Cool Fiction + System + Exciting Battles + Gym Leaders + Multiple Female Protagonists] 
+                    Li Luochen, the youngest Pokémon Master in history, unleashes single-dragon power crushing regional champions. 
+                    As a true hero, he takes back what belongs to him with his legendary team of Charizard, Dragonite, 
+                    Gul'ton, Milton, Reshiram, Zekrom, Kyurem, and Zygarde.
+                </p>
+                <a href="https://wtr-lab.com/en/novel/30109/elf-started-as-a-dragon-gym-leader-and-picked-up-gulton" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="275" data-category="medium">
+                <h2 class="novel-title">My Poké Ball Can Do More Than Just Capture Pokémon!</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>275 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span>4.3/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    Lu Sheng travels to the Pokémon world and obtains a unique Poké Ball that can capture more than just Pokémon. 
+                    With the template of Ash, he learns from the kind-hearted Hanako and conquers heroines and beautiful 
+                    female gym leaders. But there's something different about the captured Pokémon that changes everything!
+                </p>
+                <a href="https://wtr-lab.com/en/novel/29830/my-poke-ball-can-do-more-than-just-capture-pokemon" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="169" data-category="medium">
+                <h2 class="novel-title">Pokemon: Modifying Features Starts with Team Rocket</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>169 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span>4.7/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    Team Rocket + Semi-Dark + Quality Flow + Decisive Killing + No Divine Beast + There is a Female Lead. 
+                    Mo Xiu's soul travels through the Pokémon world and is caught up in Team Rocket's rookie ceremony, 
+                    a death battle! When Mo Xiu went on his first mission, his lifelong rival started to go crazy. 
+                    Not brainless, focusing on tactical thinking. Crystallization, Z moves, MEGA, and Gigantamax will all appear one after another.
+                </p>
+                <a href="https://wtr-lab.com/en/novel/27590/pokemon-modifying-features-starts-with-team-rocket" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="478" data-category="long">
+                <h2 class="novel-title">Pokemon: The Fighting Gym Leader Was Entangled by Sabrina</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>478 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span>4.4/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    "Do you mean when you were training your Pokemon, you met Sabrina, who was weak due to her super power rampage, and took her home? 
+                    You still coaxed her to say that if she follows you to learn, she could control her powers? 
+                    And as long as it is combined with the power of Aura, her Psychic could be cured obediently?" 
+                    Li Xuan, the owner of the fighting dojo, faces the challenge of saving his gym and dealing with Sabrina's powers.
+                </p>
+                <a href="https://wtr-lab.com/en/novel/19827/pokemon-the-fighting-gym-leader-was-entangled-by-sabrina" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="381" data-category="long">
+                <h2 class="novel-title">Lord of the Pokemons</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>381 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span>4.8/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    Start in Sinnoh, take control of your life, and build your own elf kingdom. 
+                    Fantasy elf novel with feelings for elves, but the attitude towards elves is more inclined to industrial development. 
+                    Build your empire and become the ultimate lord of Pokémon in this strategic adventure.
+                </p>
+                <a href="https://wtr-lab.com/en/novel/22460/lord-of-the-pokemons" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="278" data-category="medium">
+                <h2 class="novel-title">Pokémon: The Dark Second Generation, Stepping on Daddy to Take the Top</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>278 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span>4.2/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    Chen Luo dies after staying up late reading a novel and accidentally travels to a parallel world where elves have arrived. 
+                    Pokémon alliances are established in various regions, and elves become an indispensable part of human life. 
+                    As a veteran Pokémon fan, he loves this world and becomes a legendary trainer when he throws his first Poké Ball.
+                </p>
+                <a href="https://wtr-lab.com/en/novel/24253/pokemon-the-dark-second-generation-stepping-on-daddy-to-take-the-top" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="620" data-category="long">
+                <h2 class="novel-title">Starting with Gardevoir, I Accidentally Became the Champion</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>620 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span>4.9/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    [Pokémon Fanfiction + Initial Kalos Region + Single Female Protagonist + Time Travel] 
+                    A bolt of lightning brings the protagonist to the Kalos region where they pick up an egg and hatch a Shiny Ralts. 
+                    Starting with a Gardevoir, they aim for the world championship! Who said Gardevoir can't evolve through bonds?
+                </p>
+                <a href="https://wtr-lab.com/en/novel/28116/starting-with-gardevoir-i-accidentally-became-the-champion" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="249" data-category="medium">
+                <h2 class="novel-title">Ash is Reborn, and Serena Becomes the World Queen!</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>249 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span>4.6/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    [Elf + no intelligence reduction + no system + Master Zhi's elf returns + Serena's sweet story!] 
+                    When Pokémon master Ash was on his honeymoon with his new wife Serena, an accident caused the two to travel to a world where elves had descended. 
+                    But there was a full ten years between the two! Serena becomes a world-famous actress while Ash starts over as a new person.
+                </p>
+                <a href="https://wtr-lab.com/en/novel/27994/ash-is-reborn-and-serena-becomes-the-world-queen" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="348" data-category="long">
+                <h2 class="novel-title">Rebirth of Pokémon, Starting with the Unicorn</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>348 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span>4.7/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    Pokémon came into reality, and while the whole world was still groping for the truth, organizations emerged one after another. 
+                    Team Rocket, Hunter Organization, villain R Organization, and so on. Just when the whole world was trembling because of these 
+                    organizations, Lin Fan stepped out and said, "Don't be afraid, these are all my people." And this all started with a unicorn worm!
+                </p>
+                <a href="https://wtr-lab.com/en/novel/27591/rebirth-of-pokemon-starting-with-the-unicorn" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+
+            <div class="novel-card fade-in" data-chapters="347" data-category="long">
+                <h2 class="novel-title">Pokemons: Starting from Carlos</h2>
+                <div class="novel-meta">
+                    <div class="chapter-count">
+                        <i class="fas fa-book"></i>
+                        <span>347 Chapters</span>
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span>4.7/5</span>
+                    </div>
+                </div>
+                <p class="novel-summary">
+                    [Pokémon + Initial Kalos Region + Genius Boy + Single Female Protagonist] A man was delivering food on his electric scooter as usual when he was unfortunately struck by lightning. When he woke up, he found that he had traveled to the world of Pokémon and was a rich second-generation. At the age of 16, he embarked on an adventurous journey to the Kalos region. I didn't expect to meet Xiaozhi Xingren from the anime... Defeat all the gym leaders one by one through your own efforts, collect 8 badges, and participate in the competition...
+                </p>
+                <a href="https://wtr-lab.com/en/novel/22595/pokemons-starting-from-carlos" 
+                   target="_blank" class="read-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Read Now
+                </a>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <h3>12</h3>
+                <p>Featured Stories</p>
+            </div>
+            <div class="stat-item">
+                <h3>3,777</h3>
+                <p>Total Chapters</p>
+            </div>
+            <div class="stat-item">
+                <h3>4.6</h3>
+                <p>Average Rating</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchNovels() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.novel-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.novel-title').textContent.toLowerCase();
+                const summary = card.querySelector('.novel-summary').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || summary.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.classList.add('fade-in');
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function filterNovels(category) {
+            const cards = document.querySelectorAll('.novel-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                const chapters = parseInt(card.dataset.chapters);
+                let show = false;
+                
+                switch(category) {
+                    case 'all':
+                        show = true;
+                        break;
+                    case 'long':
+                        show = chapters >= 300;
+                        break;
+                    case 'medium':
+                        show = chapters >= 100 && chapters < 300;
+                        break;
+                    case 'short':
+                        show = chapters < 100;
+                        break;
+                }
+                
+                if (show) {
+                    card.style.display = 'block';
+                    card.classList.add('fade-in');
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Add search functionality on input
+        document.getElementById('searchInput').addEventListener('input', searchNovels);
+
+        // Add smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
